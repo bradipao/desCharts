@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.ac_main);
-
+      
       // setup the action bar to show a dropdown list
       final ActionBar aBar = getActionBar();
       aBar.setDisplayShowTitleEnabled(false);
@@ -49,7 +49,8 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
                            getString(R.string.title_section2),
                            getString(R.string.title_section3),
                            getString(R.string.title_section4),
-                           getString(R.string.title_section5)  } ),this);
+                           getString(R.string.title_section5),
+                           getString(R.string.title_section6)  } ),this);
    }
 
    @Override
@@ -90,7 +91,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
       // perform transaction according to selected entry
       switch (position) {
       case 0:
-         tx.replace(android.R.id.content,PlaceholderFragment.newInstance(position+1));
+         tx.replace(android.R.id.content,new XyChartFragment());
          break;
       case 1:
          tx.replace(android.R.id.content,PlaceholderFragment.newInstance(position+1));
@@ -103,6 +104,9 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
          break;
       case 4:
          tx.replace(android.R.id.content,PlaceholderFragment.newInstance(position+1));
+         break;
+      case 5:
+         tx.replace(android.R.id.content,new CartesianFragment());
          break;
       default:
          break;
