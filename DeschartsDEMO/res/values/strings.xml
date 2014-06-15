@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Descharts DEMO</string>
+    <string name="title_section1">XY chart</string>
+    <string name="title_section2">LINE chart</string>
+    <string name="title_section3">STACKED LINE chart</string>
+    <string name="title_section4">BAR chart</string>
+    <string name="title_section5">STACKED BAR chart</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
