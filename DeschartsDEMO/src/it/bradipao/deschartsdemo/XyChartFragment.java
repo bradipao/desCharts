@@ -26,14 +26,46 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Spinner;
+import android.widget.ToggleButton;
 
 public class XyChartFragment extends Fragment {
 
    // views
    private View rootView;
    private XyChartView vChart;
-      
+   
+   // views : series color, size and dip
+   ToggleButton tbS1,tbS2,tbS3;
+   Spinner spS1color,spS1size,spS2color,spS2size,spS3color,spS3size;
+   CheckBox cbS1dip,cbS2dip,cbS3dip;
+   // views : border, axis and grid
+   ToggleButton tbBorder,tbAxis,tbGrid;
+   Spinner spBorderC,spAxisC,spGridC,spBorderW,spAxisW,spGridW;
+   // views : dip and antialis
+   CheckBox cbUseDip,cbUseAA;
+   // views : X and Y text
+   ToggleButton tbXtext,tbYtext,tbXtextBottom,tbYtextLeft;
+   Spinner spTextC,spTextS;
+   // views : background color
+   Spinner spBkgC;
+   
+   // vars
+   private String[] colors = {"BLACK","RED","GREEN","BLUE","WHITE","holoBLU","holoVIO","holoGRE","holoYEL","holoRED"};
+   private int[] icolor = {Color.BLACK,Color.RED,Color.GREEN,Color.BLUE,Color.WHITE,0xff0099cc,0xff9933cc,0xff669900,0xffff8800,0xffcc0000};
+   private String[] widths = {"0.5","1.0","1.5","2.0","2.5","3.0"};
+   private float[] fwidth = {0.5f,1.0f,1.5f,2.0f,2.5f,3.0f};
+   private String[] sizes = {"6.0","6.5","7.0","7.5","8.0","9.0","10.0"};
+   private float[] fsizes = {6.0f,6.5f,7.0f,7.5f,8.0f,9.0f,10.0f};
+   
    @Override
    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
@@ -41,6 +73,8 @@ public class XyChartFragment extends Fragment {
       rootView = inflater.inflate(R.layout.fr_xychart,container,false);
       // get views
       getViews();
+      setupViews();
+      setupListeners();
       
       // create RED dummy serie
       ChartPointSerie rr = new ChartPointSerie(Color.RED,1);
@@ -67,7 +101,7 @@ public class XyChartFragment extends Fragment {
       gg.addPoint(new ChartPoint(495,33));
       
       // create BLUE dummy serie
-      ChartPointSerie bb = new ChartPointSerie(Color.BLUE,1);
+      ChartPointSerie bb = new ChartPointSerie(Color.BLUE,3);
       bb.addPoint(new ChartPoint(-98,-20));
       bb.addPoint(new ChartPoint(-49,-40));
       bb.addPoint(new ChartPoint(-5,Float.NaN));
@@ -88,6 +122,286 @@ public class XyChartFragment extends Fragment {
    }
    
    private void getViews() {
+      // chart view
       vChart = (XyChartView) rootView.findViewById(R.id.chart);
+      // series color, size and dip
+      tbS1 = (ToggleButton) rootView.findViewById(R.id.tbSerie1);
+      spS1color = (Spinner) rootView.findViewById(R.id.spSerie1Color);
+      spS1size = (Spinner) rootView.findViewById(R.id.spSerie1Size);
+      cbS1dip = (CheckBox) rootView.findViewById(R.id.cbSerie1Dip);
+      tbS2 = (ToggleButton) rootView.findViewById(R.id.tbSerie2);
+      spS2color = (Spinner) rootView.findViewById(R.id.spSerie2Color);
+      spS2size = (Spinner) rootView.findViewById(R.id.spSerie2Size);
+      cbS2dip = (CheckBox) rootView.findViewById(R.id.cbSerie2Dip);
+      tbS3 = (ToggleButton) rootView.findViewById(R.id.tbSerie3);
+      spS3color = (Spinner) rootView.findViewById(R.id.spSerie3Color);
+      spS3size = (Spinner) rootView.findViewById(R.id.spSerie3Size);
+      cbS3dip = (CheckBox) rootView.findViewById(R.id.cbSerie3Dip);
+      // grid visibility
+      tbBorder = (ToggleButton) rootView.findViewById(R.id.tbBorder);
+      tbAxis = (ToggleButton) rootView.findViewById(R.id.tbAxis);
+      tbGrid = (ToggleButton) rootView.findViewById(R.id.tbGrid);
+      // grid color spinner
+      spBorderC = (Spinner) rootView.findViewById(R.id.spBorderC);
+      spAxisC = (Spinner) rootView.findViewById(R.id.spAxisC);
+      spGridC = (Spinner) rootView.findViewById(R.id.spGridC);
+      // grid width spinner
+      spBorderW = (Spinner) rootView.findViewById(R.id.spBorderW);
+      spAxisW = (Spinner) rootView.findViewById(R.id.spAxisW);
+      spGridW = (Spinner) rootView.findViewById(R.id.spGridW);
+      // dip and antialias checkbox
+      cbUseDip = (CheckBox) rootView.findViewById(R.id.cbUseDip);
+      cbUseAA = (CheckBox) rootView.findViewById(R.id.cbUseAA);
+      // text label
+      tbXtext = (ToggleButton) rootView.findViewById(R.id.tbXtext);
+      tbYtext = (ToggleButton) rootView.findViewById(R.id.tbYtext);
+      tbXtextBottom = (ToggleButton) rootView.findViewById(R.id.tbXtextBottom);
+      tbYtextLeft = (ToggleButton) rootView.findViewById(R.id.tbYtextLeft);
+      // text color and size spinner
+      spTextC = (Spinner) rootView.findViewById(R.id.spTextColor);
+      spTextS = (Spinner) rootView.findViewById(R.id.spTextSize);
+      // background color
+      spBkgC = (Spinner) rootView.findViewById(R.id.spBkgColor);
    }
+   
+   private void setupViews() {
+      // series
+      tbS1.setChecked(true);
+      tbS2.setChecked(true);
+      tbS3.setChecked(true);
+      ArrayAdapter<String> adS1color = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      ArrayAdapter<String> adS2color = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      ArrayAdapter<String> adS3color = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      adS1color.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adS2color.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adS3color.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);    
+      spS1color.setAdapter(adS1color);
+      spS2color.setAdapter(adS2color);
+      spS3color.setAdapter(adS2color);
+      spS1color.setSelection(1);
+      spS2color.setSelection(2);
+      spS3color.setSelection(3);
+      ArrayAdapter<String> adS1size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
+      ArrayAdapter<String> adS2size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
+      ArrayAdapter<String> adS3size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
+      adS1size.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adS2size.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adS3size.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      spS1size.setAdapter(adS1size);
+      spS2size.setAdapter(adS2size);
+      spS3size.setAdapter(adS2size);
+      spS1size.setSelection(1);
+      spS2size.setSelection(3);
+      spS3size.setSelection(5);
+      cbS1dip.setChecked(true);
+      cbS2dip.setChecked(true);
+      cbS3dip.setChecked(true); 
+      // border, axis, grid
+      tbBorder.setChecked(true);
+      tbAxis.setChecked(true);
+      tbGrid.setChecked(true);
+      ArrayAdapter<String> adBorderC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      ArrayAdapter<String> adAxisC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      ArrayAdapter<String> adGridC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      adBorderC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adAxisC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adGridC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      spBorderC.setAdapter(adBorderC);
+      spAxisC.setAdapter(adAxisC);
+      spGridC.setAdapter(adGridC);
+      // grid color, size
+      ArrayAdapter<String> adBorderW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
+      ArrayAdapter<String> adAxisW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
+      ArrayAdapter<String> adGridW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
+      adBorderW.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adAxisW.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adGridW.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      spBorderW.setAdapter(adBorderW);
+      spAxisW.setAdapter(adAxisW);
+      spGridW.setAdapter(adGridW);
+      spBorderW.setSelection(1);
+      spAxisW.setSelection(1);
+      spGridW.setSelection(1);
+      // dip and antialias checkbox
+      cbUseDip.setChecked(true);
+      cbUseAA.setChecked(true);
+      // text label
+      tbXtext.setChecked(true);
+      tbYtext.setChecked(true);
+      tbXtextBottom.setChecked(true);
+      tbYtextLeft.setChecked(true);
+      // text color and size spinner
+      ArrayAdapter<String> adTextC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      ArrayAdapter<String> adTextS = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,sizes);
+      adTextC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      adTextS.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      spTextC.setAdapter(adTextC);
+      spTextS.setAdapter(adTextS);
+      spTextS.setSelection(2);
+      
+      // background color spinner
+      ArrayAdapter<String> adBkgC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
+      adBkgC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+      spBkgC.setAdapter(adBkgC);
+      spBkgC.setSelection(4);
+   }
+   
+   private void setupListeners() {
+      // serie togglebutton listener
+      OnClickListener mSerieListener = new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+            vChart.setLineVis(0,tbS1.isChecked());
+            vChart.setLineVis(1,tbS2.isChecked());
+            vChart.setLineVis(2,tbS3.isChecked());
+         }
+      };
+      tbS1.setOnClickListener(mSerieListener);
+      tbS2.setOnClickListener(mSerieListener);
+      tbS3.setOnClickListener(mSerieListener);
+      
+      // serie color and size listener
+      OnItemSelectedListener mSerieColorListener = new OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent,View view,int position,long id) {
+            vChart.setLineStyle(0,icolor[spS1color.getSelectedItemPosition()],fwidth[spS1size.getSelectedItemPosition()],cbS1dip.isChecked());
+            vChart.setLineStyle(1,icolor[spS2color.getSelectedItemPosition()],fwidth[spS2size.getSelectedItemPosition()],cbS2dip.isChecked());
+            vChart.setLineStyle(2,icolor[spS3color.getSelectedItemPosition()],fwidth[spS3size.getSelectedItemPosition()],cbS3dip.isChecked());
+         }
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+         }
+      };
+      spS1color.setOnItemSelectedListener(mSerieColorListener);
+      spS2color.setOnItemSelectedListener(mSerieColorListener);
+      spS3color.setOnItemSelectedListener(mSerieColorListener);
+      spS1size.setOnItemSelectedListener(mSerieColorListener);
+      spS2size.setOnItemSelectedListener(mSerieColorListener);
+      spS3size.setOnItemSelectedListener(mSerieColorListener);
+      
+      // serie dip checkbox listener
+      OnCheckedChangeListener mSerieDipListener = new OnCheckedChangeListener() {
+         @Override
+         public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            vChart.setLineStyle(0,icolor[spS1color.getSelectedItemPosition()],fwidth[spS1size.getSelectedItemPosition()],cbS1dip.isChecked());
+            vChart.setLineStyle(1,icolor[spS2color.getSelectedItemPosition()],fwidth[spS2size.getSelectedItemPosition()],cbS2dip.isChecked());
+            vChart.setLineStyle(2,icolor[spS3color.getSelectedItemPosition()],fwidth[spS3size.getSelectedItemPosition()],cbS3dip.isChecked());
+         }
+      };
+      cbS1dip.setOnCheckedChangeListener(mSerieDipListener);
+      cbS2dip.setOnCheckedChangeListener(mSerieDipListener);
+      cbS3dip.setOnCheckedChangeListener(mSerieDipListener);
+      
+      // grid togglebutton listener
+      OnClickListener mGridListener = new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+            vChart.setGridVis(tbBorder.isChecked(),tbGrid.isChecked(),tbAxis.isChecked());
+         }
+      };
+      tbBorder.setOnClickListener(mGridListener);
+      tbAxis.setOnClickListener(mGridListener);
+      tbGrid.setOnClickListener(mGridListener);
+      
+      // grid color spinner listener
+      OnItemSelectedListener mGridColorListener = new OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent,View view,int position,long id) {
+            vChart.setGridColor(icolor[spBorderC.getSelectedItemPosition()],
+                            icolor[spGridC.getSelectedItemPosition()],
+                            icolor[spAxisC.getSelectedItemPosition()]);
+         }
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+         }
+      };
+      spBorderC.setOnItemSelectedListener(mGridColorListener);
+      spGridC.setOnItemSelectedListener(mGridColorListener);
+      spAxisC.setOnItemSelectedListener(mGridColorListener);
+      
+      // grid width spinner listener
+      OnItemSelectedListener mGridWidthListener = new OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent,View view,int position,long id) {
+            if (cbUseDip.isChecked()) vChart.setGridWidthDip(fwidth[spBorderW.getSelectedItemPosition()],
+                  fwidth[spGridW.getSelectedItemPosition()],
+                  fwidth[spAxisW.getSelectedItemPosition()]);
+            else vChart.setGridWidth(fwidth[spBorderW.getSelectedItemPosition()],
+                  fwidth[spGridW.getSelectedItemPosition()],
+                  fwidth[spAxisW.getSelectedItemPosition()]);
+         }
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+         }
+      };
+      spBorderW.setOnItemSelectedListener(mGridWidthListener);
+      spGridW.setOnItemSelectedListener(mGridWidthListener);
+      spAxisW.setOnItemSelectedListener(mGridWidthListener);
+
+      // usedip checkbox listener
+      cbUseDip.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+         @Override
+         public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+               if (isChecked) vChart.setGridWidthDip(fwidth[spBorderW.getSelectedItemPosition()],
+                     fwidth[spGridW.getSelectedItemPosition()],
+                     fwidth[spAxisW.getSelectedItemPosition()]);
+               else vChart.setGridWidth(fwidth[spBorderW.getSelectedItemPosition()],
+                     fwidth[spGridW.getSelectedItemPosition()],
+                     fwidth[spAxisW.getSelectedItemPosition()]);
+         }
+      });
+      
+      // grid antialias checkbox listener
+      cbUseAA.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+         @Override
+         public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            vChart.setGridAA(isChecked);
+         }
+      });
+      
+      // text togglebutton listener
+      OnClickListener mTextListener = new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+            vChart.setTextVis(tbXtext.isChecked(),tbYtext.isChecked(),tbXtextBottom.isChecked(),tbYtextLeft.isChecked());
+         }
+      };
+      tbXtext.setOnClickListener(mTextListener);
+      tbYtext.setOnClickListener(mTextListener);
+      tbXtextBottom.setOnClickListener(mTextListener);
+      tbYtextLeft.setOnClickListener(mTextListener);
+      
+      // text color and size spinner
+      OnItemSelectedListener mTextStyleListener = new OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent,View view,int position,long id) {
+            vChart.setTextStyle(icolor[spTextC.getSelectedItemPosition()],
+                            fsizes[spTextS.getSelectedItemPosition()]);
+         }
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+         }
+      };
+      spTextC.setOnItemSelectedListener(mTextStyleListener);
+      spTextS.setOnItemSelectedListener(mTextStyleListener);
+      
+      // background color listener
+      OnItemSelectedListener mBkgColorListener = new OnItemSelectedListener() {
+         @Override
+         public void onItemSelected(AdapterView<?> parent,View view,int position,long id) {
+            vChart.setBackgroundColor(icolor[spBkgC.getSelectedItemPosition()]);
+         }
+         @Override
+         public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+         }
+      };
+      spBkgC.setOnItemSelectedListener(mBkgColorListener);
+      
+   }
+   
 }
