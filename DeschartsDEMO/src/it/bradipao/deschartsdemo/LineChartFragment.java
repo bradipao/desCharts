@@ -18,9 +18,9 @@
 
 package it.bradipao.deschartsdemo;
 
-import it.bradipao.lib.descharts.ChartPoint;
-import it.bradipao.lib.descharts.ChartPointSerie;
-import it.bradipao.lib.descharts.XyChartView;
+import it.bradipao.lib.descharts.ChartValue;
+import it.bradipao.lib.descharts.ChartValueSerie;
+import it.bradipao.lib.descharts.LineChartView;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,11 +37,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-public class XyChartFragment extends Fragment {
+public class LineChartFragment extends Fragment {
 
    // views
    private View rootView;
-   private XyChartView vChart;
+   private LineChartView vChart;
    
    // views : series color, size and dip
    ToggleButton tbS1,tbS2,tbS3;
@@ -70,48 +70,48 @@ public class XyChartFragment extends Fragment {
    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
       // inflate layout
-      rootView = inflater.inflate(R.layout.fr_xychart,container,false);
+      rootView = inflater.inflate(R.layout.fr_linechart,container,false);
       // get views
       getViews();
       setupViews();
       setupListeners();
       
       // create RED dummy serie
-      ChartPointSerie rr = new ChartPointSerie(Color.RED,1);
-      rr.addPoint(new ChartPoint(-98,99));
-      rr.addPoint(new ChartPoint(-49,80));
-      rr.addPoint(new ChartPoint(-5,180));
-      rr.addPoint(new ChartPoint(17,99));
-      rr.addPoint(new ChartPoint(54,80));
-      rr.addPoint(new ChartPoint(125,120));
-      rr.addPoint(new ChartPoint(158,20));
-      rr.addPoint(new ChartPoint(209,50));
-      rr.addPoint(new ChartPoint(317,109));
+      ChartValueSerie rr = new ChartValueSerie(Color.RED,1);
+      rr.addPoint(new ChartValue("jan",99));
+      rr.addPoint(new ChartValue("feb",80));
+      rr.addPoint(new ChartValue("mar",180));
+      rr.addPoint(new ChartValue("apr",99));
+      rr.addPoint(new ChartValue("may",80));
+      rr.addPoint(new ChartValue("jun",120));
+      rr.addPoint(new ChartValue("jul",20));
+      rr.addPoint(new ChartValue("aug",50));
+      rr.addPoint(new ChartValue("sep",109));
       
       // create GREEN dummy serie
-      ChartPointSerie gg = new ChartPointSerie(Color.GREEN,2);
-      gg.addPoint(new ChartPoint(17,-10));
-      gg.addPoint(new ChartPoint(54,20));
-      gg.addPoint(new ChartPoint(125,-50));
-      gg.addPoint(new ChartPoint(158,89));
-      gg.addPoint(new ChartPoint(209,20));
-      gg.addPoint(new ChartPoint(317,Float.NaN));
-      gg.addPoint(new ChartPoint(350,99));
-      gg.addPoint(new ChartPoint(461,75));
-      gg.addPoint(new ChartPoint(495,33));
+      ChartValueSerie gg = new ChartValueSerie(Color.GREEN,2);
+      gg.addPoint(new ChartValue("jan",-10));
+      gg.addPoint(new ChartValue("feb",20));
+      gg.addPoint(new ChartValue("mar",-50));
+      gg.addPoint(new ChartValue("apr",89));
+      gg.addPoint(new ChartValue("may",20));
+      gg.addPoint(new ChartValue("jun",Float.NaN));
+      gg.addPoint(new ChartValue("jul",99));
+      gg.addPoint(new ChartValue("aug",75));
+      gg.addPoint(new ChartValue("sep",33));
       
       // create BLUE dummy serie
-      ChartPointSerie bb = new ChartPointSerie(Color.BLUE,3);
-      bb.addPoint(new ChartPoint(-98,-20));
-      bb.addPoint(new ChartPoint(-49,-40));
-      bb.addPoint(new ChartPoint(-5,Float.NaN));
-      bb.addPoint(new ChartPoint(17,139));
-      bb.addPoint(new ChartPoint(54,160));
-      bb.addPoint(new ChartPoint(209,90));
-      bb.addPoint(new ChartPoint(317,70));
-      bb.addPoint(new ChartPoint(350,79));
-      bb.addPoint(new ChartPoint(461,175));
-      bb.addPoint(new ChartPoint(495,153));
+      ChartValueSerie bb = new ChartValueSerie(Color.BLUE,3);
+      bb.addPoint(new ChartValue("jan",-20));
+      bb.addPoint(new ChartValue("feb",-40));
+      bb.addPoint(new ChartValue("mar",Float.NaN));
+      bb.addPoint(new ChartValue("apr",139));
+      bb.addPoint(new ChartValue("may",160));
+      bb.addPoint(new ChartValue("jun",90));
+      bb.addPoint(new ChartValue("jul",70));
+      bb.addPoint(new ChartValue("aug",79));
+      bb.addPoint(new ChartValue("sep",175));
+      bb.addPoint(new ChartValue("oct",153));
       
       // add lines to LinePlotView
       vChart.addSerie(rr);
@@ -123,7 +123,7 @@ public class XyChartFragment extends Fragment {
    
    private void getViews() {
       // chart view
-      vChart = (XyChartView) rootView.findViewById(R.id.chart);
+      vChart = (LineChartView) rootView.findViewById(R.id.chart);
       // series color, size and dip
       tbS1 = (ToggleButton) rootView.findViewById(R.id.tbSerie1);
       spS1color = (Spinner) rootView.findViewById(R.id.spSerie1Color);
@@ -178,9 +178,9 @@ public class XyChartFragment extends Fragment {
       spS1color.setAdapter(adS1color);
       spS2color.setAdapter(adS2color);
       spS3color.setAdapter(adS2color);
-      spS1color.setSelection(1);
-      spS2color.setSelection(2);
-      spS3color.setSelection(3);
+      spS1color.setSelection(7);
+      spS2color.setSelection(8);
+      spS3color.setSelection(9);
       ArrayAdapter<String> adS1size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adS2size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adS3size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
@@ -209,7 +209,10 @@ public class XyChartFragment extends Fragment {
       spBorderC.setAdapter(adBorderC);
       spAxisC.setAdapter(adAxisC);
       spGridC.setAdapter(adGridC);
-      // grid color, size
+      spBorderC.setSelection(6);
+      spAxisC.setSelection(6);
+      spGridC.setSelection(6);
+      // grid size
       ArrayAdapter<String> adBorderW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adAxisW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adGridW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
@@ -223,7 +226,7 @@ public class XyChartFragment extends Fragment {
       spAxisW.setSelection(1);
       spGridW.setSelection(1);
       // dip and antialias checkbox
-      cbUseDip.setChecked(false);
+      cbUseDip.setChecked(true);
       cbUseAA.setChecked(true);
       // text label
       tbXtext.setChecked(true);
@@ -237,13 +240,13 @@ public class XyChartFragment extends Fragment {
       adTextS.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       spTextC.setAdapter(adTextC);
       spTextS.setAdapter(adTextS);
-      spTextS.setSelection(2);
-      
+      spTextC.setSelection(6);
+      spTextS.setSelection(5);
       // background color spinner
       ArrayAdapter<String> adBkgC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
       adBkgC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       spBkgC.setAdapter(adBkgC);
-      spBkgC.setSelection(6);
+      spBkgC.setSelection(0);
    }
    
    private void setupListeners() {

@@ -94,7 +94,7 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
          tx.replace(android.R.id.content,new XyChartFragment());
          break;
       case 1:
-         tx.replace(android.R.id.content,PlaceholderFragment.newInstance(position+1));
+         tx.replace(android.R.id.content,new LineChartFragment());
          break;
       case 2:
          tx.replace(android.R.id.content,PlaceholderFragment.newInstance(position+1));
