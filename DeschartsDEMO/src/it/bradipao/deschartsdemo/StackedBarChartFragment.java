@@ -20,7 +20,7 @@ package it.bradipao.deschartsdemo;
 
 import it.bradipao.lib.descharts.ChartValue;
 import it.bradipao.lib.descharts.ChartValueSerie;
-import it.bradipao.lib.descharts.StackedLineChartView;
+import it.bradipao.lib.descharts.StackedBarChartView;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,11 +37,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-public class StackedLineChartFragment extends Fragment {
+public class StackedBarChartFragment extends Fragment {
 
    // views
    private View rootView;
-   private StackedLineChartView vChart;
+   private StackedBarChartView vChart;
    
    // views : series color, size and dip
    ToggleButton tbS1,tbS2,tbS3;
@@ -69,7 +69,7 @@ public class StackedLineChartFragment extends Fragment {
    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
       // inflate layout
-      rootView = inflater.inflate(R.layout.fr_stackedlinechart,container,false);
+      rootView = inflater.inflate(R.layout.fr_stackedbarchart,container,false);
       // get views
       getViews();
       setupViews();
@@ -131,7 +131,7 @@ public class StackedLineChartFragment extends Fragment {
    
    private void getViews() {
       // chart view
-      vChart = (StackedLineChartView) rootView.findViewById(R.id.chart);
+      vChart = (StackedBarChartView) rootView.findViewById(R.id.chart);
       // series color, size and dip
       tbS1 = (ToggleButton) rootView.findViewById(R.id.tbSerie1);
       spS1color = (Spinner) rootView.findViewById(R.id.spSerie1Color);
@@ -186,9 +186,9 @@ public class StackedLineChartFragment extends Fragment {
       spS1color.setAdapter(adS1color);
       spS2color.setAdapter(adS2color);
       spS3color.setAdapter(adS2color);
-      spS1color.setSelection(7);
-      spS2color.setSelection(8);
-      spS3color.setSelection(9);
+      spS1color.setSelection(3);
+      spS2color.setSelection(2);
+      spS3color.setSelection(5);
       ArrayAdapter<String> adS1size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adS2size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adS3size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
@@ -199,8 +199,8 @@ public class StackedLineChartFragment extends Fragment {
       spS2size.setAdapter(adS2size);
       spS3size.setAdapter(adS2size);
       spS1size.setSelection(1);
-      spS2size.setSelection(3);
-      spS3size.setSelection(5); 
+      spS2size.setSelection(1);
+      spS3size.setSelection(1);
       ArrayAdapter<String> adS1fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
       ArrayAdapter<String> adS2fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
       ArrayAdapter<String> adS3fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
@@ -210,9 +210,9 @@ public class StackedLineChartFragment extends Fragment {
       spS1fillc.setAdapter(adS1fillc);
       spS2fillc.setAdapter(adS2fillc);
       spS3fillc.setAdapter(adS2fillc);
-      spS1fillc.setSelection(1);
+      spS1fillc.setSelection(3);
       spS2fillc.setSelection(2);
-      spS3fillc.setSelection(3);
+      spS3fillc.setSelection(5);
       // border, axis, grid
       tbBorder.setChecked(true);
       tbAxis.setChecked(true);
@@ -226,9 +226,9 @@ public class StackedLineChartFragment extends Fragment {
       spBorderC.setAdapter(adBorderC);
       spAxisC.setAdapter(adAxisC);
       spGridC.setAdapter(adGridC);
-      spBorderC.setSelection(6);
-      spAxisC.setSelection(6);
-      spGridC.setSelection(6);
+      spBorderC.setSelection(0);
+      spAxisC.setSelection(0);
+      spGridC.setSelection(0);
       // grid size
       ArrayAdapter<String> adBorderW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adAxisW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
@@ -257,13 +257,13 @@ public class StackedLineChartFragment extends Fragment {
       adTextS.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       spTextC.setAdapter(adTextC);
       spTextS.setAdapter(adTextS);
-      spTextC.setSelection(6);
+      spTextC.setSelection(0);
       spTextS.setSelection(5);
       // background color spinner
       ArrayAdapter<String> adBkgC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
       adBkgC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       spBkgC.setAdapter(adBkgC);
-      spBkgC.setSelection(0);
+      spBkgC.setSelection(6);
    }
    
    private void setupListeners() {

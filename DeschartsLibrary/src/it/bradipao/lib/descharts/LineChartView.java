@@ -36,6 +36,7 @@ public class LineChartView extends CartesianView {
    // data holder
    private ArrayList<ChartValueSerie> mSeries = new ArrayList<ChartValueSerie>();
    private int mXnum=0;
+   private int mLabelMaxNum = 10;
 
    // objects
    private Paint mPnt = new Paint();
@@ -152,6 +153,16 @@ public class LineChartView extends CartesianView {
       postInvalidate();
    }
 
+   /**
+    * Sets maximum number of labels on X axis.
+    */
+   public void setLabelMaxNum(int maxnum) {
+      if (maxnum<=0) return;
+      mLabelMaxNum = maxnum;
+      bRedraw = true;
+      postInvalidate();
+   }
+   
    /** 
     * Gets X,Y ranges across all series
     */
@@ -191,8 +202,6 @@ public class LineChartView extends CartesianView {
             mPath.reset();
             for (ii=0;ii<serie.mPointList.size();ii++) {
                pY = serie.mPointList.get(ii).y;
-               float xx = sX+bX+ii*aX;
-               float yy = eY-(pY-bY)*aY;
                if (Float.isNaN(pY)) {
                   pValid = false;
                } else if (!pValid) {
@@ -227,7 +236,7 @@ public class LineChartView extends CartesianView {
       ChartValueSerie mLabel = mSeries.get(0);
       String label;
       int numlab = mLabel.getSize();
-      int numdiv = 1 + numlab/10;
+      int numdiv = 1 + (numlab-1)/mLabelMaxNum;
       if (p_xtext_bottom) {
          for (ii=0;ii<mLabel.getSize();ii++) {
             mPath.moveTo(sX+bX+ii*aX,eY-3);

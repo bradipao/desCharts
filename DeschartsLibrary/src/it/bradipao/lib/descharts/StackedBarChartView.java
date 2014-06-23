@@ -25,30 +25,28 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 
 /**
-* StackedLineChartView() class represents a stacke line graph widget.
+* StackedBarChartView() class represents a stacked bar graph widget.
 */
 
-public class StackedLineChartView extends CartesianView {
+public class StackedBarChartView extends CartesianView {
 
    // data holder
    private ArrayList<ChartValueSerie> mSeries = new ArrayList<ChartValueSerie>();
    private ChartValueSerie mStacked = new ChartValueSerie();
-   private int mXnum = 0;
+   private int mXnum=0;
    private int mLabelMaxNum = 10;
 
    // objects
    private Paint mPnt = new Paint();
    private Paint mPntFill = new Paint();
-   private Path mPathFill;
    
    /** 
     * Constructor.
     */
-   public StackedLineChartView(Context context){
+   public StackedBarChartView(Context context){
       super(context);
       initPaint();
    }
@@ -56,7 +54,7 @@ public class StackedLineChartView extends CartesianView {
    /** 
     * Constructor.
     */
-   public StackedLineChartView(Context context,AttributeSet attrs) {
+   public StackedBarChartView(Context context,AttributeSet attrs) {
       super(context,attrs);
       initPaint();
    }
@@ -81,7 +79,7 @@ public class StackedLineChartView extends CartesianView {
          // create bitmap and canvas to draw
          mBmp = Bitmap.createBitmap(p_width,p_height,Config.ARGB_8888);
          mCnv = new Canvas(mBmp);
-
+         
          // draw data
          drawData();
          // draw inner grid
@@ -200,11 +198,11 @@ public class StackedLineChartView extends CartesianView {
     * Draw data from all series
     */
    protected void drawData() {
+      float pY;
       ChartValueSerie serie;
       ChartValue v;
-      float pY;
-      for (ii=mSeries.size()-1;ii>=0;ii--) {
-         serie = mSeries.get(ii);
+      for (ii=0;ii<mSeries.size();ii++) {
+         serie = mSeries.get(ii); 
          if (serie.isVisible()) {
             // set paint
             mPnt.reset();
@@ -217,29 +215,18 @@ public class StackedLineChartView extends CartesianView {
             else mPnt.setStrokeWidth(serie.mWidth);
             mPnt.setAntiAlias(true);
             mPntFill.setAntiAlias(false);
+            
             // iterate through points
             for (jj=0;jj<mStacked.mPointList.size();jj++) {
                v = mStacked.mPointList.get(jj);
                pY = v.y;
-               if (jj==0) {
-                  mPath.reset();
-                  mPath.moveTo(sX+bX+jj*aX,eY-(pY-bY)*aY);
-               } else {
-                  mPath.lineTo(sX+bX+jj*aX,eY-(pY-bY)*aY);
+               // draw rect
+               if (!Float.isNaN(pY)) {
+                  mCnv.drawRect(sX+aX/4+jj*aX+1,eY,sX+aX/4+aX/2+jj*aX,eY-(pY-bY)*aY,mPntFill);
+                  mCnv.drawRect(sX+aX/4+jj*aX+1,eY,sX+aX/4+aX/2+jj*aX,eY-(pY-bY)*aY,mPnt);
                }
                mStacked.updatePoint(jj,v.y-serie.getPoint(jj).y);
-            }
-            // create fill path and draw if requested
-            if (serie.mFillColor!=0) {
-               mPathFill = new Path(mPath);
-               mPathFill.lineTo(sX+bX+(mStacked.mPointList.size()-1)*aX,eY);
-               mPathFill.lineTo(sX+bX,eY);
-               mPathFill.close();
-               mCnv.drawPath(mPathFill,mPntFill);
-            }
-            // draw line
-            mCnv.drawPath(mPath,mPnt);
-            
+            }            
          }
       }
    }
@@ -283,7 +270,7 @@ public class StackedLineChartView extends CartesianView {
       }
       mCnv.drawPath(mPath,mPntAxis);
    }   
-
+   
    /** 
     * Calculates cumulated values of all series stacked
     */

@@ -100,10 +100,10 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
          tx.replace(android.R.id.content,new StackedLineChartFragment());
          break;
       case 3:
-         tx.replace(android.R.id.content,PlaceholderFragment.newInstance(position+1));
+         tx.replace(android.R.id.content,new BarChartFragment());
          break;
       case 4:
-         tx.replace(android.R.id.content,PlaceholderFragment.newInstance(position+1));
+         tx.replace(android.R.id.content,new StackedBarChartFragment());
          break;
       case 5:
          tx.replace(android.R.id.content,new CartesianFragment());

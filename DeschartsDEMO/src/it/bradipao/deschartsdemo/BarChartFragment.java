@@ -18,9 +18,9 @@
 
 package it.bradipao.deschartsdemo;
 
+import it.bradipao.lib.descharts.BarChartView;
 import it.bradipao.lib.descharts.ChartValue;
 import it.bradipao.lib.descharts.ChartValueSerie;
-import it.bradipao.lib.descharts.StackedLineChartView;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,11 +37,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-public class StackedLineChartFragment extends Fragment {
+public class BarChartFragment extends Fragment {
 
    // views
    private View rootView;
-   private StackedLineChartView vChart;
+   private BarChartView vChart;
    
    // views : series color, size and dip
    ToggleButton tbS1,tbS2,tbS3;
@@ -69,7 +69,7 @@ public class StackedLineChartFragment extends Fragment {
    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
       // inflate layout
-      rootView = inflater.inflate(R.layout.fr_stackedlinechart,container,false);
+      rootView = inflater.inflate(R.layout.fr_barchart,container,false);
       // get views
       getViews();
       setupViews();
@@ -77,51 +77,32 @@ public class StackedLineChartFragment extends Fragment {
       
       // create RED dummy serie
       ChartValueSerie rr = new ChartValueSerie(Color.RED,1);
-      rr.addPoint(new ChartValue("jan",10));
-      rr.addPoint(new ChartValue("feb",15));
-      rr.addPoint(new ChartValue("mar",25));
-      rr.addPoint(new ChartValue("apr",30));
-      rr.addPoint(new ChartValue("may",15));
-      rr.addPoint(new ChartValue("jun",30));
-      rr.addPoint(new ChartValue("jul",70));
-      rr.addPoint(new ChartValue("aug",100));
-      rr.addPoint(new ChartValue("sep",130));
-      rr.addPoint(new ChartValue("oct",125));
-      rr.addPoint(new ChartValue("nov",120));
-      rr.addPoint(new ChartValue("dec",115));
+      rr.addPoint(new ChartValue("jan",99));
+      rr.addPoint(new ChartValue("feb",80));
+      rr.addPoint(new ChartValue("mar",180));
+      rr.addPoint(new ChartValue("apr",99));
+      rr.addPoint(new ChartValue("may",80));
+      rr.addPoint(new ChartValue("jun",120));
       
       // create GREEN dummy serie
       ChartValueSerie gg = new ChartValueSerie(Color.GREEN,2);
-      gg.addPoint(new ChartValue("jan",15));
-      gg.addPoint(new ChartValue("feb",30));
-      gg.addPoint(new ChartValue("mar",50));
-      gg.addPoint(new ChartValue("apr",75));
-      gg.addPoint(new ChartValue("may",100));
-      gg.addPoint(new ChartValue("jun",70));
-      gg.addPoint(new ChartValue("jul",60));
-      gg.addPoint(new ChartValue("aug",45));
-      gg.addPoint(new ChartValue("sep",20));
-      gg.addPoint(new ChartValue("oct",15));
-      gg.addPoint(new ChartValue("nov",10));
-      gg.addPoint(new ChartValue("dec",5));
+      gg.addPoint(new ChartValue("jan",-10));
+      gg.addPoint(new ChartValue("feb",20));
+      gg.addPoint(new ChartValue("mar",-50));
+      gg.addPoint(new ChartValue("apr",89));
+      gg.addPoint(new ChartValue("may",20));
+      gg.addPoint(new ChartValue("jun",Float.NaN));
       
       // create BLUE dummy serie
       ChartValueSerie bb = new ChartValueSerie(Color.BLUE,3);
-      bb.addPoint(new ChartValue("jan",150));
-      bb.addPoint(new ChartValue("feb",120));
-      bb.addPoint(new ChartValue("mar",100));
-      bb.addPoint(new ChartValue("apr",90));
-      bb.addPoint(new ChartValue("may",80));
-      bb.addPoint(new ChartValue("jun",70));
-      bb.addPoint(new ChartValue("jul",55));
-      bb.addPoint(new ChartValue("aug",40));
-      bb.addPoint(new ChartValue("sep",25));
-      bb.addPoint(new ChartValue("oct",35));
-      bb.addPoint(new ChartValue("nov",40));
-      bb.addPoint(new ChartValue("dec",50));
+      bb.addPoint(new ChartValue("jan",-20));
+      bb.addPoint(new ChartValue("feb",-40));
+      bb.addPoint(new ChartValue("mar",Float.NaN));
+      bb.addPoint(new ChartValue("apr",139));
+      bb.addPoint(new ChartValue("may",160));
+      bb.addPoint(new ChartValue("jun",90));
       
       // add lines to LinePlotView
-      vChart.setLabelMaxNum(12);
       vChart.addSerie(rr);
       vChart.addSerie(gg);
       vChart.addSerie(bb);
@@ -131,7 +112,7 @@ public class StackedLineChartFragment extends Fragment {
    
    private void getViews() {
       // chart view
-      vChart = (StackedLineChartView) rootView.findViewById(R.id.chart);
+      vChart = (BarChartView) rootView.findViewById(R.id.chart);
       // series color, size and dip
       tbS1 = (ToggleButton) rootView.findViewById(R.id.tbSerie1);
       spS1color = (Spinner) rootView.findViewById(R.id.spSerie1Color);
@@ -186,9 +167,9 @@ public class StackedLineChartFragment extends Fragment {
       spS1color.setAdapter(adS1color);
       spS2color.setAdapter(adS2color);
       spS3color.setAdapter(adS2color);
-      spS1color.setSelection(7);
-      spS2color.setSelection(8);
-      spS3color.setSelection(9);
+      spS1color.setSelection(10);
+      spS2color.setSelection(7);
+      spS3color.setSelection(11);
       ArrayAdapter<String> adS1size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adS2size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adS3size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
@@ -199,8 +180,8 @@ public class StackedLineChartFragment extends Fragment {
       spS2size.setAdapter(adS2size);
       spS3size.setAdapter(adS2size);
       spS1size.setSelection(1);
-      spS2size.setSelection(3);
-      spS3size.setSelection(5); 
+      spS2size.setSelection(1);
+      spS3size.setSelection(1);
       ArrayAdapter<String> adS1fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
       ArrayAdapter<String> adS2fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
       ArrayAdapter<String> adS3fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
@@ -210,9 +191,9 @@ public class StackedLineChartFragment extends Fragment {
       spS1fillc.setAdapter(adS1fillc);
       spS2fillc.setAdapter(adS2fillc);
       spS3fillc.setAdapter(adS2fillc);
-      spS1fillc.setSelection(1);
-      spS2fillc.setSelection(2);
-      spS3fillc.setSelection(3);
+      spS1fillc.setSelection(4);
+      spS2fillc.setSelection(1);
+      spS3fillc.setSelection(5);
       // border, axis, grid
       tbBorder.setChecked(true);
       tbAxis.setChecked(true);
