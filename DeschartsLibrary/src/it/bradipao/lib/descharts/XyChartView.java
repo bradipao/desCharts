@@ -27,6 +27,10 @@ import android.graphics.Paint;
 import android.graphics.Bitmap.Config;
 import android.util.AttributeSet;
 
+/**
+* XyChartView() class represents an XY graph widget.
+*/
+
 public class XyChartView extends CartesianView {
 
    // data holder

@@ -33,6 +33,7 @@ public class ChartValueSerie {
    
    // color, width, unit for width (pixel or dip)
    public int mColor = 0xFF000000;
+   public int mFillColor = 0x00000000;
    public float mWidth = 2;
    public boolean mUseDip = true;
    
@@ -137,6 +138,14 @@ public class ChartValueSerie {
    }
    
    /**
+   * Update a point in the points dataset.
+   */
+   public void updatePoint(int index,float y){
+      mPointList.get(index).y = y;
+      if (mAutoYminmax) calcRanges();
+   }
+   
+   /**
    * Returns size of the points dataset.
    */
    public int getSize(){
@@ -208,6 +217,16 @@ public class ChartValueSerie {
    */
    public void setStyle(int iColor,float fWidth,boolean bUsedip) {
       mColor = iColor;
+      mWidth = fWidth;
+      mUseDip = bUsedip;
+   }
+   
+   /**
+   * Setter for Color, FillColor, Width and UseDip properties.
+   */
+   public void setStyle(int iColor,int iFillColor,float fWidth,boolean bUsedip) {
+      mColor = iColor;
+      mFillColor = iFillColor;
       mWidth = fWidth;
       mUseDip = bUsedip;
    }

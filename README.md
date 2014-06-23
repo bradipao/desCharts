@@ -1,11 +1,18 @@
-desCharts
-=========
+![descharts name logo](https://github.com/bradipao/desCharts/raw/master/media/ch_namelogo.png)
+___
 
-Android Charting Library
+**What is _desCharts_?**  
+Yet another android charting library.
+
+**Why the name _desCharts_?**  
+A tribute to [René Descartes](http://en.wikipedia.org/wiki/Ren%C3%A9_Descartes), father of analytical geometry.
 
 ***
 
-**LICENSE**
+**Credits**  
+I learned how to create a custom chart view studying Daniel Nadeau's [HoloGraphLibrary](https://bitbucket.org/danielnadeau/holographlibrary), a wonderful android charting library, then I decided to write a library from scratch... just for fun. :)
+
+**License**
 
     Copyright 2014 Bradipao (bradipao@gmail.com)
     https://plus.google.com/+SidBradipao
