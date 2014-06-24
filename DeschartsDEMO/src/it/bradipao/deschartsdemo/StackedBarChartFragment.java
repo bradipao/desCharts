@@ -120,7 +120,7 @@ public class StackedBarChartFragment extends Fragment {
       bb.addPoint(new ChartValue("nov",40));
       bb.addPoint(new ChartValue("dec",50));
       
-      // add lines to LinePlotView
+      // add lines to chart
       vChart.setLabelMaxNum(12);
       vChart.addSerie(rr);
       vChart.addSerie(gg);

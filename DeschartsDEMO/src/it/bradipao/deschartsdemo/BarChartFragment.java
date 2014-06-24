@@ -102,7 +102,7 @@ public class BarChartFragment extends Fragment {
       bb.addPoint(new ChartValue("may",160));
       bb.addPoint(new ChartValue("jun",90));
       
-      // add lines to LinePlotView
+      // add lines to chart
       vChart.addSerie(rr);
       vChart.addSerie(gg);
       vChart.addSerie(bb);

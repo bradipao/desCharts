@@ -113,7 +113,7 @@ public class XyChartFragment extends Fragment {
       bb.addPoint(new ChartPoint(461,175));
       bb.addPoint(new ChartPoint(495,153));
       
-      // add lines to LinePlotView
+      // add lines to chart
       vChart.addSerie(rr);
       vChart.addSerie(gg);
       vChart.addSerie(bb);

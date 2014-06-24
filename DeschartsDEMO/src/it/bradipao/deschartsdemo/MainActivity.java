@@ -94,19 +94,19 @@ public class MainActivity extends Activity implements ActionBar.OnNavigationList
          tx.replace(android.R.id.content,new XyChartFragment());
          break;
       case 1:
-         tx.replace(android.R.id.content,new LineChartFragment());
+         tx.replace(android.R.id.content,new StyledXyChartFragment());
          break;
       case 2:
-         tx.replace(android.R.id.content,new StackedLineChartFragment());
+         tx.replace(android.R.id.content,new LineChartFragment());
          break;
       case 3:
-         tx.replace(android.R.id.content,new BarChartFragment());
+         tx.replace(android.R.id.content,new StackedLineChartFragment());
          break;
       case 4:
-         tx.replace(android.R.id.content,new StackedBarChartFragment());
+         tx.replace(android.R.id.content,new BarChartFragment());
          break;
       case 5:
-         tx.replace(android.R.id.content,new CartesianFragment());
+         tx.replace(android.R.id.content,new StackedBarChartFragment());
          break;
       default:
          break;

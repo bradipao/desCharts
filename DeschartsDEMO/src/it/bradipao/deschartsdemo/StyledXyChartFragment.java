@@ -18,9 +18,9 @@
 
 package it.bradipao.deschartsdemo;
 
-import it.bradipao.lib.descharts.ChartValue;
-import it.bradipao.lib.descharts.ChartValueSerie;
-import it.bradipao.lib.descharts.StackedLineChartView;
+import it.bradipao.lib.descharts.StyledChartPoint;
+import it.bradipao.lib.descharts.StyledChartPointSerie;
+import it.bradipao.lib.descharts.StyledXyChartView;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,15 +37,16 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
-public class StackedLineChartFragment extends Fragment {
+public class StyledXyChartFragment extends Fragment {
 
    // views
    private View rootView;
-   private StackedLineChartView vChart;
+   private StyledXyChartView vChart;
    
    // views : series color, size and dip
-   ToggleButton tbS1,tbS2,tbS3;
-   Spinner spS1color,spS1size,spS2color,spS2size,spS3color,spS3size,spS1fillc,spS2fillc,spS3fillc;
+   ToggleButton tbS1,tbS2;
+   Spinner spS1size,spS2size;
+   CheckBox cbS1dip,cbS2dip;
    // views : border, axis and grid
    ToggleButton tbBorder,tbAxis,tbGrid;
    Spinner spBorderC,spAxisC,spGridC,spBorderW,spAxisW,spGridW;
@@ -69,82 +70,53 @@ public class StackedLineChartFragment extends Fragment {
    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
 
       // inflate layout
-      rootView = inflater.inflate(R.layout.fr_stackedlinechart,container,false);
+      rootView = inflater.inflate(R.layout.fr_styledxychart,container,false);
       // get views
       getViews();
       setupViews();
       setupListeners();
       
-      // create RED dummy serie
-      ChartValueSerie rr = new ChartValueSerie(Color.RED,1);
-      rr.addPoint(new ChartValue("jan",10));
-      rr.addPoint(new ChartValue("feb",15));
-      rr.addPoint(new ChartValue("mar",25));
-      rr.addPoint(new ChartValue("apr",30));
-      rr.addPoint(new ChartValue("may",15));
-      rr.addPoint(new ChartValue("jun",30));
-      rr.addPoint(new ChartValue("jul",70));
-      rr.addPoint(new ChartValue("aug",100));
-      rr.addPoint(new ChartValue("sep",130));
-      rr.addPoint(new ChartValue("oct",125));
-      rr.addPoint(new ChartValue("nov",120));
-      rr.addPoint(new ChartValue("dec",115));
+      // create FIRST dummy serie
+      StyledChartPointSerie rr = new StyledChartPointSerie(2);
+      rr.addPoint(new StyledChartPoint(-90, 99,0xff99cc00,0xffeeeeee));
+      rr.addPoint(new StyledChartPoint(-49, 80,0xffff4444,0xffffcccc));
+      rr.addPoint(new StyledChartPoint( -5,180,0xff99cc00,0xffeeff99));
+      rr.addPoint(new StyledChartPoint( 17, 99,0xffffbb33,0xffffee99));
+      rr.addPoint(new StyledChartPoint( 54, 80,0xff33bbee,0xffeeeeee));
+      rr.addPoint(new StyledChartPoint(125,120,0xff99cc00,0xffeeeeee));
+      rr.addPoint(new StyledChartPoint(158, 20,0xffff4444,0xffeeeeee));
+      rr.addPoint(new StyledChartPoint(209, 50,0xffff4444,0xffffcccc));
+      rr.addPoint(new StyledChartPoint(297,109,0xff33bbee,0xff99ddff));
       
-      // create GREEN dummy serie
-      ChartValueSerie gg = new ChartValueSerie(Color.GREEN,2);
-      gg.addPoint(new ChartValue("jan",15));
-      gg.addPoint(new ChartValue("feb",30));
-      gg.addPoint(new ChartValue("mar",50));
-      gg.addPoint(new ChartValue("apr",75));
-      gg.addPoint(new ChartValue("may",100));
-      gg.addPoint(new ChartValue("jun",70));
-      gg.addPoint(new ChartValue("jul",60));
-      gg.addPoint(new ChartValue("aug",45));
-      gg.addPoint(new ChartValue("sep",20));
-      gg.addPoint(new ChartValue("oct",15));
-      gg.addPoint(new ChartValue("nov",10));
-      gg.addPoint(new ChartValue("dec",5));
-      
-      // create BLUE dummy serie
-      ChartValueSerie bb = new ChartValueSerie(Color.BLUE,3);
-      bb.addPoint(new ChartValue("jan",150));
-      bb.addPoint(new ChartValue("feb",120));
-      bb.addPoint(new ChartValue("mar",100));
-      bb.addPoint(new ChartValue("apr",90));
-      bb.addPoint(new ChartValue("may",80));
-      bb.addPoint(new ChartValue("jun",70));
-      bb.addPoint(new ChartValue("jul",55));
-      bb.addPoint(new ChartValue("aug",40));
-      bb.addPoint(new ChartValue("sep",25));
-      bb.addPoint(new ChartValue("oct",35));
-      bb.addPoint(new ChartValue("nov",40));
-      bb.addPoint(new ChartValue("dec",50));
+      // create SECOND dummy serie
+      StyledChartPointSerie gg = new StyledChartPointSerie(2);
+      gg.addPoint(new StyledChartPoint( 17,-10,Color.BLACK,Color.TRANSPARENT,0xffff8800,5));
+      gg.addPoint(new StyledChartPoint( 54, 20,Color.BLACK,Color.TRANSPARENT,0xffcc0000,5));
+      gg.addPoint(new StyledChartPoint(125,-50,Color.BLACK,Color.TRANSPARENT,0xff669900,5));
+      gg.addPoint(new StyledChartPoint(158, 89,Color.BLACK,Color.TRANSPARENT,Color.GRAY,8));
+      gg.addPoint(new StyledChartPoint(209, 20,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+      gg.addPoint(new StyledChartPoint(217,Float.NaN,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+      gg.addPoint(new StyledChartPoint(250, 99,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+      gg.addPoint(new StyledChartPoint(261, 75,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+      gg.addPoint(new StyledChartPoint(295, 33,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
       
       // add lines to chart
-      vChart.setLabelMaxNum(12);
       vChart.addSerie(rr);
       vChart.addSerie(gg);
-      vChart.addSerie(bb);
       
       return rootView;
    }
    
    private void getViews() {
       // chart view
-      vChart = (StackedLineChartView) rootView.findViewById(R.id.chart);
+      vChart = (StyledXyChartView) rootView.findViewById(R.id.chart);
       // series color, size and dip
       tbS1 = (ToggleButton) rootView.findViewById(R.id.tbSerie1);
-      spS1color = (Spinner) rootView.findViewById(R.id.spSerie1Color);
       spS1size = (Spinner) rootView.findViewById(R.id.spSerie1Size);
-      spS1fillc = (Spinner) rootView.findViewById(R.id.spSerie1FillColor);
+      cbS1dip = (CheckBox) rootView.findViewById(R.id.cbSerie1Dip);
       tbS2 = (ToggleButton) rootView.findViewById(R.id.tbSerie2);
-      spS2color = (Spinner) rootView.findViewById(R.id.spSerie2Color);
       spS2size = (Spinner) rootView.findViewById(R.id.spSerie2Size);
-      spS2fillc = (Spinner) rootView.findViewById(R.id.spSerie2FillColor);
-      tbS3 = (ToggleButton) rootView.findViewById(R.id.tbSerie3);
-      spS3color = (Spinner) rootView.findViewById(R.id.spSerie3Color);
-      spS3size = (Spinner) rootView.findViewById(R.id.spSerie3Size);
-      spS3fillc = (Spinner) rootView.findViewById(R.id.spSerie3FillColor);
+      cbS2dip = (CheckBox) rootView.findViewById(R.id.cbSerie2Dip);
       // grid visibility
       tbBorder = (ToggleButton) rootView.findViewById(R.id.tbBorder);
       tbAxis = (ToggleButton) rootView.findViewById(R.id.tbAxis);
@@ -176,43 +148,16 @@ public class StackedLineChartFragment extends Fragment {
       // series
       tbS1.setChecked(true);
       tbS2.setChecked(true);
-      tbS3.setChecked(true);
-      ArrayAdapter<String> adS1color = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
-      ArrayAdapter<String> adS2color = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
-      ArrayAdapter<String> adS3color = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
-      adS1color.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-      adS2color.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-      adS3color.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);    
-      spS1color.setAdapter(adS1color);
-      spS2color.setAdapter(adS2color);
-      spS3color.setAdapter(adS2color);
-      spS1color.setSelection(7);
-      spS2color.setSelection(8);
-      spS3color.setSelection(9);
       ArrayAdapter<String> adS1size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adS2size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
-      ArrayAdapter<String> adS3size = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       adS1size.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       adS2size.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-      adS3size.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       spS1size.setAdapter(adS1size);
       spS2size.setAdapter(adS2size);
-      spS3size.setAdapter(adS2size);
       spS1size.setSelection(1);
       spS2size.setSelection(3);
-      spS3size.setSelection(5); 
-      ArrayAdapter<String> adS1fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
-      ArrayAdapter<String> adS2fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
-      ArrayAdapter<String> adS3fillc = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
-      adS1fillc.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-      adS2fillc.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-      adS3fillc.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);    
-      spS1fillc.setAdapter(adS1fillc);
-      spS2fillc.setAdapter(adS2fillc);
-      spS3fillc.setAdapter(adS2fillc);
-      spS1fillc.setSelection(1);
-      spS2fillc.setSelection(2);
-      spS3fillc.setSelection(3);
+      cbS1dip.setChecked(true);
+      cbS2dip.setChecked(true);
       // border, axis, grid
       tbBorder.setChecked(true);
       tbAxis.setChecked(true);
@@ -226,10 +171,7 @@ public class StackedLineChartFragment extends Fragment {
       spBorderC.setAdapter(adBorderC);
       spAxisC.setAdapter(adAxisC);
       spGridC.setAdapter(adGridC);
-      spBorderC.setSelection(6);
-      spAxisC.setSelection(6);
-      spGridC.setSelection(6);
-      // grid size
+      // grid color, size
       ArrayAdapter<String> adBorderW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adAxisW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
       ArrayAdapter<String> adGridW = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,widths);
@@ -243,7 +185,7 @@ public class StackedLineChartFragment extends Fragment {
       spAxisW.setSelection(1);
       spGridW.setSelection(1);
       // dip and antialias checkbox
-      cbUseDip.setChecked(true);
+      cbUseDip.setChecked(false);
       cbUseAA.setChecked(true);
       // text label
       tbXtext.setChecked(true);
@@ -257,13 +199,13 @@ public class StackedLineChartFragment extends Fragment {
       adTextS.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       spTextC.setAdapter(adTextC);
       spTextS.setAdapter(adTextS);
-      spTextC.setSelection(6);
-      spTextS.setSelection(5);
+      spTextS.setSelection(2);
+      
       // background color spinner
       ArrayAdapter<String> adBkgC = new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_item,colors);
       adBkgC.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
       spBkgC.setAdapter(adBkgC);
-      spBkgC.setSelection(0);
+      spBkgC.setSelection(6);
    }
    
    private void setupListeners() {
@@ -273,35 +215,36 @@ public class StackedLineChartFragment extends Fragment {
          public void onClick(View v) {
             vChart.setLineVis(0,tbS1.isChecked());
             vChart.setLineVis(1,tbS2.isChecked());
-            vChart.setLineVis(2,tbS3.isChecked());
          }
       };
       tbS1.setOnClickListener(mSerieListener);
       tbS2.setOnClickListener(mSerieListener);
-      tbS3.setOnClickListener(mSerieListener);
       
       // serie color and size listener
       OnItemSelectedListener mSerieColorListener = new OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent,View view,int position,long id) {
-            vChart.setLineStyle(0,icolor[spS1color.getSelectedItemPosition()],icolor[spS1fillc.getSelectedItemPosition()],fwidth[spS1size.getSelectedItemPosition()],true);
-            vChart.setLineStyle(1,icolor[spS2color.getSelectedItemPosition()],icolor[spS2fillc.getSelectedItemPosition()],fwidth[spS2size.getSelectedItemPosition()],true);
-            vChart.setLineStyle(2,icolor[spS3color.getSelectedItemPosition()],icolor[spS3fillc.getSelectedItemPosition()],fwidth[spS3size.getSelectedItemPosition()],true);
+            vChart.setLineStyle(0,fwidth[spS1size.getSelectedItemPosition()],cbS1dip.isChecked());
+            vChart.setLineStyle(1,fwidth[spS2size.getSelectedItemPosition()],cbS2dip.isChecked());
          }
          @Override
          public void onNothingSelected(AdapterView<?> parent) {
             // do nothing
          }
       };
-      spS1color.setOnItemSelectedListener(mSerieColorListener);
-      spS2color.setOnItemSelectedListener(mSerieColorListener);
-      spS3color.setOnItemSelectedListener(mSerieColorListener);
-      spS1fillc.setOnItemSelectedListener(mSerieColorListener);
-      spS2fillc.setOnItemSelectedListener(mSerieColorListener);
-      spS3fillc.setOnItemSelectedListener(mSerieColorListener);
       spS1size.setOnItemSelectedListener(mSerieColorListener);
       spS2size.setOnItemSelectedListener(mSerieColorListener);
-      spS3size.setOnItemSelectedListener(mSerieColorListener);
+      
+      // serie dip checkbox listener
+      OnCheckedChangeListener mSerieDipListener = new OnCheckedChangeListener() {
+         @Override
+         public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+            vChart.setLineStyle(0,fwidth[spS1size.getSelectedItemPosition()],cbS1dip.isChecked());
+            //vChart.setLineStyle(1,icolor[spS2color.getSelectedItemPosition()],fwidth[spS2size.getSelectedItemPosition()],cbS2dip.isChecked());
+         }
+      };
+      cbS1dip.setOnCheckedChangeListener(mSerieDipListener);
+      cbS2dip.setOnCheckedChangeListener(mSerieDipListener);
       
       // grid togglebutton listener
       OnClickListener mGridListener = new View.OnClickListener() {
