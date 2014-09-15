@@ -22,7 +22,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.bradipao.deschartsdemo"
     android:versionCode="1"
-    android:versionName="0.01" >
+    android:versionName="0.0.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
