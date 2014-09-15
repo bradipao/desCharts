@@ -1,12 +1,12 @@
 # ![descharts name logo](https://github.com/bradipao/desCharts/raw/master/media/ch_namelogo.png)
 
-**What is _desCharts_?**  
+**What is _desCharts_?**
 yet another android charting library
 
-**Why the name _desCharts_?**  
+**Why the name _desCharts_?**
 a tribute to [René Descartes](http://en.wikipedia.org/wiki/Ren%C3%A9_Descartes), father of analytical geometry
 
-**Where is the manual?**  
+**Where is the manual?**
 go to the [desCharts wiki pages](https://github.com/bradipao/desCharts/wiki)
 
 ## Show me the pics!
@@ -26,40 +26,64 @@ go to the [desCharts wiki pages](https://github.com/bradipao/desCharts/wiki)
 
 ## Show me the code!!
 ```xml
-    <it.bradipao.lib.descharts.StyledXyChartView
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+<it.bradipao.lib.descharts.StyledXyChartView
+    android:id="@+id/chart"
+    android:layout_width="match_parent"
+    android:layout_height="200dp" />
 ```
 
 ```java
-      // create FIRST serie
-      StyledChartPointSerie rr = new StyledChartPointSerie(2);
-      rr.addPoint(new StyledChartPoint(-90, 99,0xff99cc00,0xffeeeeee));
-      rr.addPoint(new StyledChartPoint(-49, 80,0xffff4444,0xffffcccc));
-      rr.addPoint(new StyledChartPoint( -5,180,0xff99cc00,0xffeeff99));
-      rr.addPoint(new StyledChartPoint( 17, 99,0xffffbb33,0xffffee99));
-      rr.addPoint(new StyledChartPoint( 54, 80,0xff33bbee,0xffeeeeee));
-      rr.addPoint(new StyledChartPoint(125,120,0xff99cc00,0xffeeeeee));
-      rr.addPoint(new StyledChartPoint(158, 20,0xffff4444,0xffeeeeee));
-      rr.addPoint(new StyledChartPoint(209, 50,0xffff4444,0xffffcccc));
-      rr.addPoint(new StyledChartPoint(297,109,0xff33bbee,0xff99ddff));
-      
-      // create SECOND serie
-      StyledChartPointSerie gg = new StyledChartPointSerie(2);
-      gg.addPoint(new StyledChartPoint( 17,-10,Color.BLACK,Color.TRANSPARENT,0xffff8800,5));
-      gg.addPoint(new StyledChartPoint( 54, 20,Color.BLACK,Color.TRANSPARENT,0xffcc0000,5));
-      gg.addPoint(new StyledChartPoint(125,-50,Color.BLACK,Color.TRANSPARENT,0xff669900,5));
-      gg.addPoint(new StyledChartPoint(158, 89,Color.BLACK,Color.TRANSPARENT,Color.GRAY,8));
-      gg.addPoint(new StyledChartPoint(209, 20,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
-      gg.addPoint(new StyledChartPoint(217,Float.NaN,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
-      gg.addPoint(new StyledChartPoint(250, 99,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
-      gg.addPoint(new StyledChartPoint(261, 75,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
-      gg.addPoint(new StyledChartPoint(295, 33,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
-      
-      // add lines to chart
-      vChart.addSerie(rr);
-      vChart.addSerie(gg);
+// create FIRST serie
+StyledChartPointSerie rr = new StyledChartPointSerie(2);
+rr.addPoint(new StyledChartPoint(-90, 99,0xff99cc00,0xffeeeeee));
+rr.addPoint(new StyledChartPoint(-49, 80,0xffff4444,0xffffcccc));
+rr.addPoint(new StyledChartPoint( -5,180,0xff99cc00,0xffeeff99));
+rr.addPoint(new StyledChartPoint( 17, 99,0xffffbb33,0xffffee99));
+rr.addPoint(new StyledChartPoint( 54, 80,0xff33bbee,0xffeeeeee));
+rr.addPoint(new StyledChartPoint(125,120,0xff99cc00,0xffeeeeee));
+rr.addPoint(new StyledChartPoint(158, 20,0xffff4444,0xffeeeeee));
+rr.addPoint(new StyledChartPoint(209, 50,0xffff4444,0xffffcccc));
+rr.addPoint(new StyledChartPoint(297,109,0xff33bbee,0xff99ddff));
+
+// create SECOND serie
+StyledChartPointSerie gg = new StyledChartPointSerie(2);
+gg.addPoint(new StyledChartPoint( 17,-10,Color.BLACK,Color.TRANSPARENT,0xffff8800,5));
+gg.addPoint(new StyledChartPoint( 54, 20,Color.BLACK,Color.TRANSPARENT,0xffcc0000,5));
+gg.addPoint(new StyledChartPoint(125,-50,Color.BLACK,Color.TRANSPARENT,0xff669900,5));
+gg.addPoint(new StyledChartPoint(158, 89,Color.BLACK,Color.TRANSPARENT,Color.GRAY,8));
+gg.addPoint(new StyledChartPoint(209, 20,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+gg.addPoint(new StyledChartPoint(217,Float.NaN,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+gg.addPoint(new StyledChartPoint(250, 99,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+gg.addPoint(new StyledChartPoint(261, 75,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+gg.addPoint(new StyledChartPoint(295, 33,Color.BLACK,Color.TRANSPARENT,Color.GRAY,4));
+
+// add lines to chart
+vChart.addSerie(rr);
+vChart.addSerie(gg);
+```
+
+## Usage
+
+### Gradle build
+
+To install the demo application to your device run the following task:
+
+```
+$ ./gradlew installDebug
+```
+
+To deploy the library to your local Maven repository run the following task:
+
+```
+$ ./gradlew install
+```
+
+Then, to use the library in your project add the following to your `build.gradle`:
+
+```groovy
+dependencies {
+    compile 'it.bradipao.lib:descharts:0.0.1'
+}
 ```
 
 ## Credits and Acknowledgements
@@ -71,7 +95,7 @@ go to the [desCharts wiki pages](https://github.com/bradipao/desCharts/wiki)
 
     Copyright 2014 Bradipao (bradipao@gmail.com)
     https://plus.google.com/+SidBradipao
-    
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
