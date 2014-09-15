@@ -62,6 +62,30 @@ vChart.addSerie(rr);
 vChart.addSerie(gg);
 ```
 
+## Usage
+
+### Gradle build
+
+To install the demo application to your device run the following task:
+
+```
+$ ./gradlew installDebug
+```
+
+To deploy the library to your local Maven repository run the following task:
+
+```
+$ ./gradlew install
+```
+
+Then, to use the library in your project add the following to your `build.gradle`:
+
+```groovy
+dependencies {
+    compile 'it.bradipao.lib:descharts:0.0.1'
+}
+```
+
 ## Credits and Acknowledgements
 **Author** : Sid Bradipao (https://plus.google.com/+SidBradipao)
 
